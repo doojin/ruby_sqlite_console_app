@@ -1,0 +1,1 @@
+# ruby_sqlite_console_app
