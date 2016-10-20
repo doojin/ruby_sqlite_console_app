@@ -1,19 +1,12 @@
 require 'data_mapper'
+require './lib/model/user'
+require './lib/repository/user_repository'
+require './lib/data_mapper_setup'
 
-DataMapper::Logger.new($stdout, :debug)
-DataMapper.setup(:default, 'sqlite::memory')
+set_up_data_mapper
 
-class User
-  include DataMapper::Resource
+user = User.new('Dmitry', :male)
 
-  property :id,   Serial
-  property :name, String
-end
-
-DataMapper.auto_migrate!
-
-user = User.create(name: 'Dmitry')
-
-users = User.all.each do |u|
-  puts u.name
-end
+user_repository = UserRepository.new
+user_repository.save(user)
+user_repository.find_all.each { |u| puts u }
