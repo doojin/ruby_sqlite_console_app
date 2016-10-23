@@ -18,8 +18,12 @@ describe UserRepository do
     it 'should save user to database' do
       @group_repository.save('Group 1')
       @group_repository.save('Group 2')
-      @user_repository.save(User.new('Dmitry', :male, 'Group 1'))
-      @user_repository.save(User.new('Tanires', :female, 'Group 2'))
+
+      group1 = GroupEntity.first(name: 'Group 1')
+      group2 = GroupEntity.first(name: 'Group 2')
+
+      @user_repository.save(User.new('Dmitry', :male, group1))
+      @user_repository.save(User.new('Tanires', :female, group2))
 
       users = UserEntity.all
 
@@ -47,15 +51,15 @@ describe UserRepository do
 
       expect(users[0].name).to eq('User1')
       expect(users[0].gender).to eq(:male)
-      expect(users[0].group).to eq('Group 1')
+      expect(users[0].group.name).to eq('Group 1')
 
       expect(users[1].name).to eq('User2')
       expect(users[1].gender).to eq(:female)
-      expect(users[1].group).to eq('Group 2')
+      expect(users[1].group.name).to eq('Group 2')
 
       expect(users[2].name).to eq('User3')
       expect(users[2].gender).to eq(:male)
-      expect(users[2].group).to eq('Group 3')
+      expect(users[2].group.name).to eq('Group 3')
     end
   end
 
